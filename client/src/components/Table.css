@@ -1,5 +1,5 @@
 .table-title {
-  background-color: #dddddd;
+    background-color: #dddddd;
 }
 
 table {
@@ -15,18 +15,18 @@ td, th {
 }
 
 .Affirmative {
-	background: mediumseagreen;
+    background: mediumseagreen;
 }
 
 .Neutral {
-	background: grey;
+    background: grey;
 }
 
 .Contrary {
-	background: indianred;
+    background: indianred;
 }
 
 th div {
-        display: flex;
+    display: flex;
     justify-content: space-between;
 }
