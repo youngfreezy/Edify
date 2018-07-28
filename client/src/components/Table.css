@@ -1,0 +1,27 @@
+.table-title {
+  background-color: #dddddd;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 25%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.Affirmative {
+	background: mediumseagreen;
+}
+
+.Neutral {
+	background: grey;
+}
+
+.Contrary {
+	background: indianred;
+}

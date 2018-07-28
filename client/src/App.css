@@ -1,0 +1,46 @@
+.App {
+  text-align: center;
+  background: lightslategray;
+  min-height: 1000px;
+}
+
+.App-header {
+  padding: 20px;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+}
+.game-item {
+  margin-bottom: 1%;
+  border-radius: 2px;
+}
+.answer {
+  min-height: 30px;
+  font-size: larger;
+}
+.question-input {
+  width: 25%;
+  height: 30px;
+}
+.ask-question-button {
+  width: 25%;
+  height: 30px;
+}
+.actions-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+
