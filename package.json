@@ -8,20 +8,18 @@
     "test": "cd client/ && npm run test"
   },
   "dependencies": {
-    "chai": "^4.1.2",
-    "chai-spies": "^1.0.0",
-    "enzyme": "^3.3.0",
     "express": "^4.16.2",
+    "node-fetch": "^2.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "request": "^2.87.0",
-    "request-promise": "^4.2.2",
-    "sinon": "^6.1.4"
+    "react-spinners": "^0.3.3",
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "chai": "^4.1.2",
+    "chai-spies": "^1.0.0",
   }
 }

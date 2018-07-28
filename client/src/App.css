@@ -6,6 +6,9 @@
 
 .App-header {
   padding: 20px;
+  margin-bottom: 25px;
+  min-height: 90px;
+  padding-bottom: 0px;
 }
 
 .App-title {
@@ -16,22 +19,28 @@
   display: flex;
   flex-direction: column;
 }
+
 .game-item {
   margin-bottom: 1%;
   border-radius: 2px;
 }
+
 .answer {
   min-height: 30px;
   font-size: larger;
 }
+
+
 .question-input {
   width: 25%;
   height: 30px;
 }
+
 .ask-question-button {
   width: 25%;
   height: 30px;
 }
+
 .actions-container {
   display: flex;
   align-items: center;
@@ -42,5 +51,3 @@
 .App-intro {
   font-size: large;
 }
-
-

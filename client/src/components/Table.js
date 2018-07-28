@@ -7,7 +7,12 @@ class Table extends Component {
       <table className="table">
         <tbody>
           <tr className="table-title">
-            <th>History of Luck</th>
+            <th>
+              <div>
+                History of Luck{" "}
+                <button onClick={this.props.clearTable}>Clear</button>
+              </div>
+            </th>
           </tr>
           {this.props.tableRows.map((row, i) => {
             return (

@@ -1,13 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Table from "./components/Table"
+import Table from "./components/Table";
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import sinon from "sinon";
 import chai from "chai";
 const chaiExpect = chai.expect;
-
 
 configure({
   adapter: new Adapter()
@@ -69,7 +67,9 @@ it("test click event with input text", () => {
 });
 
 it("the table should add rows properly", () => {
-	const table = shallow(<Table tableRows={[{text: "hi"}, {text: "hello"}]}/>)
-	const rows = table.find(".row");
-	expect(rows.length).toEqual(2);
-})
+  const table = shallow(
+    <Table tableRows={[{ text: "hi" }, { text: "hello" }]} />
+  );
+  const rows = table.find(".row");
+  expect(rows.length).toEqual(2);
+});

@@ -25,3 +25,8 @@ td, th {
 .Contrary {
 	background: indianred;
 }
+
+th div {
+        display: flex;
+    justify-content: space-between;
+}
