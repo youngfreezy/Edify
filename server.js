@@ -12,7 +12,6 @@ const callEightBallApi = async uri => {
   return body;
 };
 app.get("/eight-ball/:searchTerm", (req, res) => {
-  console.log(req, "req");
   const requestParams = encodeURIComponent(req.params.searchTerm);
   const uri = `https://8ball.delegator.com/magic/JSON/${requestParams}`;
   callEightBallApi(uri)
