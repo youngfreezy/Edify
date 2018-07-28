@@ -10,4 +10,6 @@ then, to start the app:
 
 to run tests, in the root of the project:
 
-`npm run test`
+`npm run test a` 
+
+(the last test throws a "network request failed" error which is caught by the application - this is expected).
