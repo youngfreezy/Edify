@@ -1,12 +1,8 @@
 to start the app, first clone the repo, then in the root of the project:
 
-`npm i`
+`npm run deps`
 
-then go to the `client/` directory and `npm i`
-
-back to the root: `yarn dev`
-
-
+this will install both server and client side dependencies.
 
 to run tests, in the root of the project:
 
