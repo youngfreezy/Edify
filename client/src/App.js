@@ -4,6 +4,7 @@ import "./App.css";
 import "typeface-roboto";
 import MoviesGrid from "./components/MoviesGrid/MoviesGrid";
 import MoviesDetail from "./components/MoviesDetail/MoviesDetail";
+import get from "lodash/get";
 
 import {
   BrowserRouter as Router,
@@ -45,10 +46,10 @@ function App() {
         }
       })
       .then(movieData => {
-        movieData.data.results = movieData.data.results.filter(
+        const moviesWithPictures = get(movieData, "data.results", []).filter(
           movie => movie.poster_path
         );
-        let newMovies = movies.concat(movieData.data.results);
+        let newMovies = movies.concat(moviesWithPictures);
         setMovies(newMovies);
       });
   };

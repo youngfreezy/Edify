@@ -21,7 +21,7 @@ export default function MoviesGrid({ movies, loadMore, showIndividualView }) {
                 <img
                   onClick={e => showIndividualView(e, movie)}
                   alt="movie"
-                  src={`http://image.tmdb.org/t/p/w185/${movie.poster_path}`}
+                  src={`http://image.tmdb.org/t/p/w185${movie.poster_path}`}
                 ></img>
               }
             </div>
