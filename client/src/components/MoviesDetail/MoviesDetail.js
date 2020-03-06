@@ -11,7 +11,7 @@ export default function MoviesGrid({ isOpen, closeModal, selectedMovie }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      contentLabel="Movide Detail"
+      contentLabel="Movie Detail"
     >
       <button onClick={closeModal}>close</button>
 

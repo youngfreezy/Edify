@@ -1,12 +1,15 @@
 import React from "react";
 import "./MoviesGrid.css";
+import throttle from "lodash/throttle"
+
 
 export default function MoviesGrid({ movies, loadMore, showIndividualView }) {
-  window.onscroll = function(ev) {
+  const loadMoreMovies = ev => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        loadMore()
+      loadMore();
     }
   };
+  window.onscroll = throttle(loadMoreMovies, 1000);
   return (
     <div className="movies-grid">
       <div className="grid">

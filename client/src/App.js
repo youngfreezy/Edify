@@ -16,7 +16,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState([]);
-  let [pageNumber, setSelectedPageNumber] = useState(1);
+  let [pageNumber, setPageNumber] = useState(0);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -30,9 +30,14 @@ function App() {
     setSelectedMovie(movie);
     openModal();
   };
+
+  useEffect(() => {
+    loadMore();
+  }, []);
+
   const loadMore = () => {
     let newPageNumber = pageNumber + 1;
-    setSelectedPageNumber(newPageNumber);
+    setPageNumber(newPageNumber);
     axios
       .get("/movies", {
         params: {
@@ -44,27 +49,9 @@ function App() {
           movie => movie.poster_path
         );
         let newMovies = movies.concat(movieData.data.results);
-        return setMovies(newMovies);
+        setMovies(newMovies);
       });
   };
-  const callApi = () => {
-    return axios.get("/movies", {
-      params: {
-        page: pageNumber
-      }
-    });
-  };
-
-  useEffect(() => {
-    callApi()
-      .then(moviesData => {
-        const moviesWithPictures = moviesData.data.results.filter(
-          movie => movie.poster_path
-        );
-        setMovies(moviesWithPictures);
-      })
-      .catch(err => console.log(err, "THE ERROR FROM COMPONENT MOUNT"));
-  }, callApi);
 
   return (
     <Router>
@@ -72,8 +59,8 @@ function App() {
         <Switch>
           <Route exact path="/movies-grid">
             <MoviesGrid
-              loadMore={loadMore}
               movies={movies}
+              loadMore={loadMore}
               showIndividualView={showIndividualView}
             />
             <MoviesDetail
