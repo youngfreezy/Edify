@@ -1,6 +1,6 @@
 const apiKey = "9952def8e4e171a89ef202376a61cbe6";
 const fetch = require("node-fetch");
- moviesController = (req, res) => {
+moviesController = (req, res) => {
   const uri = `http://api.themoviedb.org/3/discover/movie?language=en&sort_by=popularity.asc&primary_release_year=2017&api_key=${apiKey}&page=${req
     .query.page || 1}`;
   moviesApi(uri)

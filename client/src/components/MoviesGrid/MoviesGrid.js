@@ -1,7 +1,6 @@
 import React from "react";
 import "./MoviesGrid.css";
-import throttle from "lodash/throttle"
-
+import throttle from "lodash/throttle";
 
 export default function MoviesGrid({ movies, loadMore, showIndividualView }) {
   const loadMoreMovies = ev => {
