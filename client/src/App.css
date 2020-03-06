@@ -1,52 +1,59 @@
 .App {
   text-align: center;
-  background: lightslategray;
-  min-height: 1000px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
 }
 
 .App-header {
+  background-color: #222;
+  height: 150px;
   padding: 20px;
-  margin-bottom: 25px;
-  min-height: 90px;
-  padding-bottom: 0px;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.game-item {
-  margin-bottom: 1%;
-  border-radius: 2px;
-}
-
-.answer {
-  min-height: 30px;
-  font-size: larger;
-}
-
-.question-input {
-  width: 25%;
-  height: 30px;
-}
-
-.ask-question-button {
-  width: 25%;
-  height: 30px;
-}
-
-.actions-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  color: white;
 }
 
 .App-intro {
   font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+.grid-item {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  width: 15%;
+  padding: 10px;
+  box-sizing: border-box;
+  float: none;
+}
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 50%;
 }

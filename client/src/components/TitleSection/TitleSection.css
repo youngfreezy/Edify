@@ -1,0 +1,13 @@
+.title {
+    display: flex;
+    justify-content: center;
+  }
+  .emoji-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  span[aria-label="rocket"] {
+    max-width: 50%;
+  }

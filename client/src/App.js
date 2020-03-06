@@ -1,111 +1,114 @@
-import React, { Component } from "react";
-import logo from "./8ball.png";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./App.css";
-import Table from "./components/Table";
-import { SyncLoader } from "react-spinners";
+import "typeface-roboto";
+import Modal from 'react-modal';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputText: "",
-      tableRows: [],
-      answer: "",
-      loading: false
-    };
-    this.parseUserInput = this.parseUserInput.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.clearTable = this.clearTable.bind(this);
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState([]);
+  let [pageNumber, setSelectedPageNumber] = useState(0)
+  
+  const openModal = () => {
+    setModalIsOpen(true)
   }
 
-  componentDidMount() {
-    if (window.localStorage) {
-      let tableRows = JSON.parse(
-        window.localStorage.getItem("tableRows"),
-        null,
-        4
-      );
-      if (tableRows && tableRows.length > 0) {
-        this.setState({ tableRows });
+  const closeModal = () => {
+    setModalIsOpen(false)
+  }
+
+
+ const showIndividualView = (e, movie) => {
+   setSelectedMovie(movie);
+   openModal();
+  }
+  //convert this to infinite scroll.
+  const loadMore = () => {
+    setSelectedPageNumber(pageNumber++)
+    axios.get('/movies', {params: {
+      page: pageNumber
+    }})
+    .then(movieData => {
+        //TODO: abstract filtering into a function
+        movieData.data.results = movieData.data.results.filter((movie) => movie.poster_path)
+        let newMovies = movies.concat(movieData.data.results);
+        return setMovies(newMovies);
+    })
+  }
+  const callApi = () => {
+    const pageNumber = 2;
+    return axios.get("/movies", {
+      params: {
+        page: pageNumber
       }
-    }
-  }
-  parseUserInput(e) {
-    if (this.state.inputText === "") {
-      return alert("Please enter a question to ask");
-    }
-    this.setState({ loading: true });
-    this.callApi()
-      .then(json => {
-        let tableRows = this.state.tableRows;
-        tableRows = tableRows.concat({ text: json.magic.type });
-        this.setState({ tableRows, inputText: "", answer: json.magic.answer });
-        window.localStorage.setItem("tableRows", JSON.stringify(tableRows));
-        this.setState({ loading: false });
-      })
-      .catch(err => {
-        console.log("the error in making the request", err);
-        this.setState({ loading: false });
-      });
-  }
-  handleInputChange(e) {
-    this.setState({ inputText: e.target.value });
-  }
-
-  async callApi() {
-    const requestParams = encodeURIComponent(this.state.inputText);
-    const response = await fetch(`/eight-ball/${requestParams}`);
-    const body = await response.json();
-    if (response.status !== 200) alert(body.message);
-    return body;
-  }
-
-  clearTable() {
-    this.setState({ tableRows: [], loading: true }, () => {
-      setTimeout(() => {
-        this.setState({ loading: false });
-      }, 10);
     });
-  }
+  };
 
-  render() {
-    return (
+  useEffect(() => {
+    console.log("CALLING...");
+    callApi()
+      .then(moviesData => {
+        console.log(moviesData, 'data')
+        setMovies(moviesData.data.results);
+      })
+      .catch(err => console.log(err, "THE ERROR YO"));
+  }, []);
+
+
+  return (
+    <Router>
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title"> Magic 8-Ball </h1>{" "}
-          <SyncLoader
-            color={"#dddddd"}
-            size={15}
-            loading={this.state.loading}
-          />
-        </header>{" "}
-        <div className="game-container">
-          <div className="game-item">
-            <img src={logo} className="App-logo" alt="logo" />
-          </div>{" "}
-          <div className="game-item answer"> {this.state.answer} </div>{" "}
-          <div className="actions-container game-item">
-            <input
-              className="question-input game-item"
-              placeholder="Enter your yes/no question..."
-              value={this.state.inputText}
-              onChange={this.handleInputChange}
-            />
-            <button
-              className="ask-question-button game-item"
-              onClick={this.parseUserInput}
-            >
-              Shake the Magic 8 - ball{" "}
-            </button>{" "}
-            <Table
-              tableRows={this.state.tableRows}
-              clearTable={this.clearTable}
-            />{" "}
-          </div>{" "}
-        </div>{" "}
-      </div>
-    );
-  }
-}
+        {/* <NavigationMenu submitted={submitted} /> */}
+        <Switch>
+          <Route exact path="/movies-grid">
+          <button onClick={loadMore}>Load More </button>
 
+            <div className="grid">
+              {movies && movies.map(movie => (
+                <div key={movie.id} className="grid-item">
+                  <div>{movie.title}</div>
+                  {
+                    <img
+                      onClick={e => showIndividualView(e, movie)}
+                      alt="movie"
+                      src={
+                        "http://image.tmdb.org/t/p/w185/" + movie.poster_path
+                      }
+                    ></img>
+                  }
+                </div>
+              ))}
+            </div>
+            <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Example Modal"
+          > 
+          <button onClick={closeModal}>close</button>
+            <div className="Aligner">
+              <div className="Aligner-item">
+                <img alt="movie" src={'http://image.tmdb.org/t/p/w342/' + selectedMovie.poster_path}></img>
+                <div><b>overview: </b>{selectedMovie.overview}</div>
+                <div><b>tagline:</b>{selectedMovie.title}</div>
+                <div><b>status:</b>{selectedMovie.release_date}</div>
+                <div><b>popularity score:</b>{selectedMovie.popularity}</div>
+              </div>
+            </div>
+          </Modal>
+          </Route>
+        </Switch>
+      </div>
+      <Redirect exact from="/" to="movies-grid" />
+    </Router>
+  );
+}
 export default App;

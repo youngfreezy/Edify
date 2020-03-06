@@ -2,8 +2,8 @@ const fetch = require("node-fetch");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
-
-const callEightBallApi = async uri => {
+const apiKey = "9952def8e4e171a89ef202376a61cbe6";
+const moviesApi = async uri => {
   const response = await fetch(uri);
   const body = await response.json();
   if (response.status !== 200) {
@@ -11,10 +11,19 @@ const callEightBallApi = async uri => {
   }
   return body;
 };
-app.get("/eight-ball/:searchTerm", (req, res) => {
-  const requestParams = encodeURIComponent(req.params.searchTerm);
-  const uri = `https://8ball.delegator.com/magic/JSON/${requestParams}`;
-  callEightBallApi(uri)
+
+const movieDetail= async uri => {
+  const response = await fetch(uri);
+  const body = await response.json();
+  console.log(response, 'da response, ', response.status)
+  if (response.status !== 200) {
+    throw new Error(body.message);
+  }
+  return body;
+};
+app.get("/movies", (req, res) => {
+  const uri = `http://api.themoviedb.org/3/discover/movie?language=en&sort_by=popularity.asc&primary_release_year=2017&api_key=${apiKey}&page=${req.query.page || 1}`;
+  moviesApi(uri)
     .then(response => {
       return res.send(response);
     })

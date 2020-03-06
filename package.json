@@ -1,5 +1,5 @@
 {
-  "name": "example-create-react-app-express",
+  "name": "edify challenge",
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && yarn start",
@@ -9,10 +9,12 @@
     "deps": "npm i && cd client/ && npm i"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.16.2",
     "node-fetch": "^2.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-modal": "^3.11.2",
     "react-spinners": "^0.3.3"
   },
   "devDependencies": {
