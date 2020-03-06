@@ -12,17 +12,9 @@ const moviesApi = async uri => {
   return body;
 };
 
-const movieDetail= async uri => {
-  const response = await fetch(uri);
-  const body = await response.json();
-  console.log(response, 'da response, ', response.status)
-  if (response.status !== 200) {
-    throw new Error(body.message);
-  }
-  return body;
-};
 app.get("/movies", (req, res) => {
-  const uri = `http://api.themoviedb.org/3/discover/movie?language=en&sort_by=popularity.asc&primary_release_year=2017&api_key=${apiKey}&page=${req.query.page || 1}`;
+  const uri = `http://api.themoviedb.org/3/discover/movie?language=en&sort_by=popularity.asc&primary_release_year=2017&api_key=${apiKey}&page=${req
+    .query.page || 1}`;
   moviesApi(uri)
     .then(response => {
       return res.send(response);

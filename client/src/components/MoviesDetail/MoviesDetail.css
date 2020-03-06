@@ -1,0 +1,16 @@
+
+.content {
+  border-radius: 5px;
+  border: solid 5px lightblue;
+  margin-top: 10px;
+  background: lightgrey;
+}
+
+.detail-img {
+  display: block;
+  margin: auto;
+}
+
+.field {
+    margin-top: 20px;
+}

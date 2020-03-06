@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 import "typeface-roboto";
-import Modal from 'react-modal';
-
+import MoviesGrid from "./components/MoviesGrid/MoviesGrid";
+import MoviesDetail from "./components/MoviesDetail/MoviesDetail";
 
 import {
   BrowserRouter as Router,
@@ -16,36 +16,38 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState([]);
-  let [pageNumber, setSelectedPageNumber] = useState(0)
-  
+  let [pageNumber, setSelectedPageNumber] = useState(1);
+
   const openModal = () => {
-    setModalIsOpen(true)
-  }
+    setModalIsOpen(true);
+  };
 
   const closeModal = () => {
-    setModalIsOpen(false)
-  }
+    setModalIsOpen(false);
+  };
 
-
- const showIndividualView = (e, movie) => {
-   setSelectedMovie(movie);
-   openModal();
-  }
-  //convert this to infinite scroll.
+  const showIndividualView = (e, movie) => {
+    setSelectedMovie(movie);
+    openModal();
+  };
   const loadMore = () => {
-    setSelectedPageNumber(pageNumber++)
-    axios.get('/movies', {params: {
-      page: pageNumber
-    }})
-    .then(movieData => {
-        //TODO: abstract filtering into a function
-        movieData.data.results = movieData.data.results.filter((movie) => movie.poster_path)
+    let newPageNumber = pageNumber + 1;
+    setSelectedPageNumber(newPageNumber);
+    axios
+      .get("/movies", {
+        params: {
+          page: newPageNumber
+        }
+      })
+      .then(movieData => {
+        movieData.data.results = movieData.data.results.filter(
+          movie => movie.poster_path
+        );
         let newMovies = movies.concat(movieData.data.results);
         return setMovies(newMovies);
-    })
-  }
+      });
+  };
   const callApi = () => {
-    const pageNumber = 2;
     return axios.get("/movies", {
       params: {
         page: pageNumber
@@ -54,56 +56,31 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("CALLING...");
     callApi()
       .then(moviesData => {
-        console.log(moviesData, 'data')
-        setMovies(moviesData.data.results);
+        const moviesWithPictures = moviesData.data.results.filter(
+          movie => movie.poster_path
+        );
+        setMovies(moviesWithPictures);
       })
-      .catch(err => console.log(err, "THE ERROR YO"));
-  }, []);
-
+      .catch(err => console.log(err, "THE ERROR FROM COMPONENT MOUNT"));
+  }, callApi);
 
   return (
     <Router>
       <div className="App">
-        {/* <NavigationMenu submitted={submitted} /> */}
         <Switch>
           <Route exact path="/movies-grid">
-          <button onClick={loadMore}>Load More </button>
-
-            <div className="grid">
-              {movies && movies.map(movie => (
-                <div key={movie.id} className="grid-item">
-                  <div>{movie.title}</div>
-                  {
-                    <img
-                      onClick={e => showIndividualView(e, movie)}
-                      alt="movie"
-                      src={
-                        "http://image.tmdb.org/t/p/w185/" + movie.poster_path
-                      }
-                    ></img>
-                  }
-                </div>
-              ))}
-            </div>
-            <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="Example Modal"
-          > 
-          <button onClick={closeModal}>close</button>
-            <div className="Aligner">
-              <div className="Aligner-item">
-                <img alt="movie" src={'http://image.tmdb.org/t/p/w342/' + selectedMovie.poster_path}></img>
-                <div><b>overview: </b>{selectedMovie.overview}</div>
-                <div><b>tagline:</b>{selectedMovie.title}</div>
-                <div><b>status:</b>{selectedMovie.release_date}</div>
-                <div><b>popularity score:</b>{selectedMovie.popularity}</div>
-              </div>
-            </div>
-          </Modal>
+            <MoviesGrid
+              loadMore={loadMore}
+              movies={movies}
+              showIndividualView={showIndividualView}
+            />
+            <MoviesDetail
+              isOpen={modalIsOpen}
+              closeModal={closeModal}
+              selectedMovie={selectedMovie}
+            />
           </Route>
         </Switch>
       </div>
